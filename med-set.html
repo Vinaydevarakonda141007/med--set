@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Med-Set | Your Health Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #6b8cbc;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #ff5252;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .hero {
+            padding: 3rem 0;
+            text-align: center;
+            background: linear-gradient(rgba(74, 111, 165, 0.9), rgba(107, 140, 188, 0.9)), url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .features {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .dashboard {
+            padding: 2rem 0;
+            background-color: var(--light);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .dashboard-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .medication-list {
+            list-style: none;
+        }
+        
+        .medication-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .medication-item:last-child {
+            border-bottom: none;
+        }
+        
+        .med-name {
+            font-weight: 500;
+        }
+        
+        .med-time {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .med-quantity {
+            background: var(--light-gray);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .consultation-types {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .consult-type {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .consult-type:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-container {
+            margin-top: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .consultation-record {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .consult-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .consult-date {
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .consult-type-badge {
+            background: var(--light-gray);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .consult-details {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1rem;
+        }
+        
+        .diet-plan {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .diet-day {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .diet-day:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .meal {
+            display: flex;
+            margin-top: 0.5rem;
+        }
+        
+        .meal-time {
+            font-weight: 500;
+            min-width: 100px;
+        }
+        
+        .workout-plan {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .workout-day {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .workout-day:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .exercise {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            max-width: 350px;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .notification-title {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .close-notification {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .consult-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-pills"></i>
+                    <span>Med-Set</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Dashboard</a></li>
+                        <li><a href="#">Medications</a></li>
+                        <li><a href="#">Consultations</a></li>
+                        <li><a href="#">Health Records</a></li>
+                        <li><a href="#">Diet & Fitness</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <button class="btn btn-outline">Sign In</button>
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Your Personal Health Companion</h1>
+            <p>Med-Set helps you manage medications, track health records, book consultations, and maintain a healthy lifestyle with personalized plans.</p>
+            <button class="btn btn-primary">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Medicine Reminders</h3>
+                    <p>Never miss a dose with smart notifications for your medications.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Consultation Booking</h3>
+                    <p>Book online or offline appointments with healthcare professionals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <h3>Health Records</h3>
+                    <p>Securely store and access your medical history, reports, and prescriptions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>AI Diet Plans</h3>
+                    <p>Get personalized nutrition plans based on your health condition.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <h3>Fitness Tracking</h3>
+                    <p>Connect with Google Fit and get customized workout plans.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Analytics</h3>
+                    <p>Track your health progress with detailed charts and insights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard">
+        <div class="container">
+            <h2 class="section-title">Your Health Dashboard</h2>
+            
+            <div class="dashboard-grid">
+                <!-- Today's Medications -->
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-pills"></i> Today's Medications</h3>
+                    <ul class="medication-list">
+                        <li class="medication-item">
+                            <div>
+                                <div class="med-name">Metformin</div>
+                                <div class="med-time">After Breakfast</div>
+                            </div>
+                            <span class="med-quantity">1 tablet</span>
+                        </li>
+                        <li class="medication-item">
+                            <div>
+                                <div class="med-name">Atorvastatin</div>
+                                <div class="med-time">After Dinner</div>
+                            </div>
+                            <span class="med-quantity">1 tablet</span>
+                        </li>
+                        <li class="medication-item">
+                            <div>
+                                <div class="med-name">Vitamin D3</div>
+                                <div class="med-time">With Lunch</div>
+                            </div>
+                            <span class="med-quantity">1 capsule</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Consultation Booking -->
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-calendar-plus"></i> Book Consultation</h3>
+                    <p>Schedule an appointment with a healthcare professional</p>
+                    <div class="consultation-types">
+                        <div class="consult-type">
+                            <i class="fas fa-video fa-2x"></i>
+                            <p>Online</p>
+                        </div>
+                        <div class="consult-type">
+                            <i class="fas fa-hospital fa-2x"></i>
+                            <p>Offline</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Health Metrics -->
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-heartbeat"></i> Health Metrics</h3>
+                    <p>Connected with Google Fit</p>
+                    <div style="margin-top: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Steps Today</span>
+                            <span style="font-weight: 500;">7,842</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Heart Rate</span>
+                            <span style="font-weight: 500;">72 bpm</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Sleep</span>
+                            <span style="font-weight: 500;">6h 45m</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Consultation Records -->
+            <div class="tab-container">
+                <div class="tabs">
+                    <div class="tab active" data-tab="consultations">Consultation History</div>
+                    <div class="tab" data-tab="diet">Diet Plan</div>
+                    <div class="tab" data-tab="workout">Workout Plan</div>
+                </div>
+                
+                <div class="tab-content active" id="consultations">
+                    <div class="consultation-record">
+                        <div class="consult-header">
+                            <span class="consult-date">May 15, 2023</span>
+                            <span class="consult-type-badge">Online Consultation</span>
+                        </div>
+                        <div class="consult-details">
+                            <div>
+                                <strong>Doctor:</strong> Dr. Sarah Johnson<br>
+                                <strong>Specialization:</strong> Cardiology
+                            </div>
+                            <div>
+                                <strong>Diagnosis:</strong> Stable condition, continue current medication<br>
+                                <strong>Prescription:</strong> Metformin 500mg (1 tab after breakfast)<br>
+                                <strong>Reports:</strong> <a href="#">ECG Report.pdf</a>, <a href="#">Blood Test.pdf</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="consultation-record">
+                        <div class="consult-header">
+                            <span class="consult-date">April 28, 2023</span>
+                            <span class="consult-type-badge">Clinic Visit</span>
+                        </div>
+                        <div class="consult-details">
+                            <div>
+                                <strong>Doctor:</strong> Dr. Michael Chen<br>
+                                <strong>Specialization:</strong> Endocrinology
+                            </div>
+                            <div>
+                                <strong>Diagnosis:</strong> Vitamin D deficiency detected<br>
+                                <strong>Prescription:</strong> Vitamin D3 1000IU (1 capsule daily)<br>
+                                <strong>Reports:</strong> <a href="#">Blood Test.pdf</a>, <a href="#">Scan Report.pdf</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="diet">
+                    <div class="diet-plan">
+                        <h3>Personalized Diet Plan (Generated by AI)</h3>
+                        <p>Based on your health condition: Type 2 Diabetes, Vitamin D Deficiency</p>
+                        
+                        <div class="diet-day">
+                            <h4>Monday</h4>
+                            <div class="meal">
+                                <span class="meal-time">Breakfast:</span>
+                                <span>Oatmeal with berries and nuts</span>
+                            </div>
+                            <div class="meal">
+                                <span class="meal-time">Lunch:</span>
+                                <span>Grilled chicken salad with olive oil dressing</span>
+                            </div>
+                            <div class="meal">
+                                <span class="meal-time">Dinner:</span>
+                                <span>Baked salmon with steamed vegetables</span>
+                            </div>
+                        </div>
+                        
+                        <div class="diet-day">
+                            <h4>Tuesday</h4>
+                            <div class="meal">
+                                <span class="meal-time">Breakfast:</span>
+                                <span>Greek yogurt with chia seeds and fruits</span>
+                            </div>
+                            <div class="meal">
+                                <span class="meal-time">Lunch:</span>
+                                <span>Quinoa bowl with roasted vegetables</span>
+                            </div>
+                            <div class="meal">
+                                <span class="meal-time">Dinner:</span>
+                                <span>Lentil soup with whole grain bread</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="workout">
+                    <div class="workout-plan">
+                        <h3>Personalized Workout Plan</h3>
+                        <p>Based on your fitness goals: Weight Management, Cardiovascular Health</p>
+                        
+                        <div class="workout-day">
+                            <h4>Monday - Cardio</h4>
+                            <div class="exercise">
+                                <span>Brisk Walking</span>
+                                <span>30 minutes</span>
+                            </div>
+                            <div class="exercise">
+                                <span>Cycling</span>
+                                <span>20 minutes</span>
+                            </div>
+                        </div>
+                        
+                        <div class="workout-day">
+                            <h4>Tuesday - Strength</h4>
+                            <div class="exercise">
+                                <span>Bodyweight Squats</span>
+                                <span>3 sets of 12</span>
+                            </div>
+                            <div class="exercise">
+                                <span>Push-ups</span>
+                                <span>3 sets of 10</span>
+                            </div>
+                            <div class="exercise">
+                                <span>Plank</span>
+                                <span>3 sets of 30 seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Med-Set</h3>
+                    <p>Your comprehensive health management solution for medication reminders, consultations, and wellness tracking.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Medications</a></li>
+                        <li><a href="#">Consultations</a></li>
+                        <li><a href="#">Health Records</a></li>
+                        <li><a href="#">Diet Plans</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> support@medset.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Health St, Wellness City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Med-Set. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Medicine Reminder Notification -->
+    <div class="notification" id="medicationNotification">
+        <div class="notification-header">
+            <div class="notification-title">Medicine Reminder</div>
+            <button class="close-notification">&times;</button>
+        </div>
+        <div class="notification-body">
+            It's time to take your <strong>Metformin</strong>.
+            <br>Quantity: <strong>1 tablet</strong>
+            <br>Time: <strong>After Breakfast</strong>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Consultation type selection
+        document.querySelectorAll('.consult-type').forEach(type => {
+            type.addEventListener('click', () => {
+                alert('Redirecting to consultation booking page...');
+                // In a real app, this would redirect to booking page
+            });
+        });
+        
+        // Medicine reminder notification (demo)
+        setTimeout(() => {
+            document.getElementById('medicationNotification').classList.add('show');
+        }, 3000);
+        
+        // Close notification
+        document.querySelector('.close-notification').addEventListener('click', () => {
+            document.getElementById('medicationNotification').classList.remove('show');
+        });
+        
+        // Simulate Google Fit connection
+        document.querySelectorAll('.btn-primary').forEach(button => {
+            if(button.textContent === 'Get Started') {
+                button.addEventListener('click', () => {
+                    alert('Welcome to Med-Set! We would now connect to your Google Fit account to track your fitness data.');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
